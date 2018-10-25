@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+		<meta http-equiv="cache-control" content="max-age=0" />
+		<meta http-equiv="cache-control" content="no-cache" />
+		<meta http-equiv="expires" content="0" />
+		<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+		<meta http-equiv="pragma" content="no-cache" />	  
+    <title>User Edit!!!</title>
+
+    <!-- Bootstrap -->
+    <link href="/util/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="/util/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="/util/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- iCheck -->
+    <link href="/util/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+    <!-- bootstrap-wysiwyg -->
+    <link href="/util/vendors/google-code-prettify/bin/prettify.min.css" rel="stylesheet">
+    <!-- Select2 -->
+    <link href="/util/vendors/select2/dist/css/select2.min.css" rel="stylesheet">
+    <!-- Switchery -->
+    <link href="/util/vendors/switchery/dist/switchery.min.css" rel="stylesheet">
+    <!-- starrr -->
+    <link href="/util/vendors/starrr/dist/starrr.css" rel="stylesheet">
+    <!-- bootstrap-daterangepicker -->
+    <link href="/util/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link href="/util/build/css/custom.min.css" rel="stylesheet">
+    
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		
+  </head>
+
+  <body class="nav-md">
+    <div class="container body">
+      <div class="main_container">
+<div th:replace="common/left-side-bar :: sider-bar" ></div>
+        <!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h3>User Edit</h3>
+              </div>
+
+            </div>
+            <div class="clearfix"></div>
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Change User Information</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <br />
+                    <div id='notification'></div>
+                    <form id="form-edit-user" data-parsley-validate class="form-horizontal form-label-left">
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Email <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="email" name="email" required="required" readonly="readonly" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fullname">FullName<span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="fullname" name="fullname" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="phone">Phone number<span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="phone" name="phone" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="birthday">Birthday<span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="date" id="birthday" name="birthday" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="address">Address<span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="address" name="address" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>                      
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Gender</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12" style="margin-top: 7px;">                        
+                          <div id="gender" class="btn-group" data-toggle="buttons">
+                            <label >
+                              <input type="radio" id='male' name="gender" value="false"> &nbsp; Male &nbsp;
+                            </label>
+                            <label>
+                              <input type="radio" id='female' name="gender" value="true"> Female
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Non-LockUser</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12" style="margin-top: 7px;">
+                          <div id="gender" class="btn-group" data-toggle="buttons">
+                            <label >
+                              <input type="radio" id='lockUser' name="nonLocked" value="true"> &nbsp; Yes &nbsp;
+                            </label>
+                            <label>
+                              <input type="radio" id='unLockUser' name="nonLocked" value="false"> No
+                            </label>
+                          </div>
+                        </div>
+                      </div>   
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Enable User</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12" style="margin-top: 7px;">
+                          <div id="gender" class="btn-group" data-toggle="buttons">
+                            <label >
+                              <input type="radio" id='enableUser' name="enable" value="true"> &nbsp; Yes &nbsp;
+                            </label>
+                            <label>
+                              <input type="radio" id='unEnableUser' name="enable" value="false"> No
+                            </label>
+                          </div>
+                        </div>
+                      </div> 
+                                                               
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Role-System</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <select id="listRole" name="id_role" class="form-control">                           
+                          </select>
+                        </div>
+                      </div>    
+                                                       
+                      <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <button class="btn btn-primary" type="button">Cancel</button>
+						  <button class="btn btn-primary" type="reset">Reset</button>
+                          <button id="btnEditUser" type="button" class="btn btn-success">Submit</button>
+                        </div>
+                      </div>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div> 
+            
+          </div>
+        </div>
+        <!-- /page content -->
+
+        <!-- footer content -->
+        <footer>
+          <div class="pull-right">
+            Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+          </div>
+          <div class="clearfix"></div>
+        </footer>
+        <!-- /footer content -->
+      </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="/util/vendors/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="/util/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- FastClick -->
+    <script src="/util/vendors/fastclick/lib/fastclick.js"></script>
+    <!-- NProgress -->
+    <script src="/util/vendors/nprogress/nprogress.js"></script>
+    <!-- bootstrap-progressbar -->
+    <script src="/util/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+    <!-- iCheck -->
+    <script src="/util/vendors/iCheck/icheck.min.js"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script src="/util/vendors/moment/min/moment.min.js"></script>
+    <script src="/util/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <!-- bootstrap-wysiwyg -->
+    <script src="/util/vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js"></script>
+    <script src="/util/vendors/jquery.hotkeys/jquery.hotkeys.js"></script>
+    <script src="/util/vendors/google-code-prettify/src/prettify.js"></script>
+    <!-- jQuery Tags Input -->
+    <script src="/util/vendors/jquery.tagsinput/src/jquery.tagsinput.js"></script>
+    <!-- Switchery -->
+    <script src="/util/vendors/switchery/dist/switchery.min.js"></script>
+    <!-- Select2 -->
+    <script src="/util/vendors/select2/dist/js/select2.full.min.js"></script>
+    <!-- Parsley -->
+    <script src="/util/vendors/parsleyjs/dist/parsley.min.js"></script>
+    <!-- Autosize -->
+    <script src="/util/vendors/autosize/dist/autosize.min.js"></script>
+    <!-- jQuery autocomplete -->
+    <script src="/util/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
+    <!-- starrr -->
+    <script src="/util/vendors/starrr/dist/starrr.js"></script>
+    <!-- Custom Theme Scripts -->
+    <script src="/util/build/js/custom.min.js"></script>
+		<script src="/js/jquery.serializejson.js"></script>
+		
+		<script th:inline="javascript" >
+		var id_user;
+		var listRoles;
+		$(document).ready(function(){
+			showUserInfo();
+			
+		});
+			function showUserInfo() {
+				
+				/*<![CDATA[*/
+				
+			    id_user = /*[[${id_user}]]*/;
+			    console.log(id_user);			   
+		
+			  /*]]>*/
+  				$.ajax({
+					type : "GET",					
+					url : /*[[@{'/api/users/' + ${id_user} }]]*/   ,
+					complete : function(response) {
+						if(response.status===200){	
+						  var obj = JSON.parse(response.responseText);
+							document.getElementById("email").value = obj.email;
+							document.getElementById("fullname").value = obj.fullname;
+							document.getElementById("phone").value = obj.phone;
+							document.getElementById("birthday").value = obj.birthday;
+							document.getElementById("address").value = obj.address;
+							var gender = obj.gender;
+							if(gender===true){
+								jQuery("#female").attr('checked', true);
+							}else{
+								jQuery("#male").attr('checked', true);
+							}
+							var enable = obj.enable;
+							if(enable===true){
+								jQuery("#enableUser").attr('checked', true);
+							}else{
+								jQuery("#unEnableUser").attr('checked', true);
+							}
+							
+							var nonLocked = obj.nonLocked;
+							if(nonLocked===true){
+								jQuery("#lockUser").attr('checked', true);
+							}else{
+								jQuery("#unLockUser").attr('checked', true);
+							}
+							$.ajax({
+								type : "GET",
+								url: '/api/roles/sys',
+								success: function(data){
+									listRoles = data;
+									var roleOfUserSys;
+									obj.listRole.forEach(function(role,i){
+										if(role.scope=='SYSTEM')
+											roleOfUserSys=role.roleName;
+									});
+									console.log(listRoles);
+									$.each(listRoles,function(index,role){									
+										if(roleOfUserSys === role.roleName){
+											$('#listRole').append('<option selected value="'+role.id+'">'+ role.roleName +'</option>');
+										}else{
+											$('#listRole').append('<option  value="'+role.id+'">'+ role.roleName +'</option>');
+										}
+									})
+								},
+								error: function(res){
+									alert('khong lay dc role');
+								}
+							});
+							console.log(obj);
+							
+						}else{
+							alert(response.responseText);
+						}
+					}
+				});  
+			}
+		</script>	
+		<script>
+			$(function(){
+				$('#btnEditUser').click(function(e){				   
+				    e.preventDefault();
+				    $('input').next().remove();		
+				    editUser();
+				});
+			});		
+			function editUser() {
+				var userInfo  = $('#form-edit-user').serializeJSON({parseBooleans: true});
+				var jsonUserInfo = JSON.stringify(userInfo);	
+				console.log(jsonUserInfo);
+				$.ajax({
+					type: 'PUT',
+					contentType: 'application/json',
+					url : '/api/users',
+					dataType : 'json',
+					data: jsonUserInfo,
+					complete: function(response) {
+						if(response.status===200){
+							showMessage('notification',response.responseText, true);
+						}else if(response.status===400 && response.responseJSON.validated===false){
+							 console.log(response.responseJSON);
+               $.each(response.responseJSON.errorMessages,function(key,value){
+   	            $('input[name='+key+']').after('<span style="color: red;">'+value+'</span>');
+               });
+						}else{							
+							showMessage('notification',response.responseText, false);
+						}
+					}
+				});
+			}
+			function showMessage(tagId,msg,isSuccess){
+			    $('#'+tagId).attr('style','display:block');
+			    if(isSuccess){
+			        $('#'+tagId).prop('class','alert alert-success');
+			        $('#'+tagId).html('<strong>Success!!!<strong> '+msg);
+			        
+			    }else{
+			        $('#'+tagId).prop('class','alert alert-danger');
+			        $('#'+tagId).html('<strong>Fail!!!<strong> '+msg);
+			    }
+			    
+			    $('#'+tagId).fadeIn(50);
+			   $('#'+tagId).hide().slideDown(500);
+			   setTimeout(function() {
+			       $('#'+tagId).fadeOut(1500);
+			   }, 3000);
+			}	
+		</script>
+  </body>
+</html>

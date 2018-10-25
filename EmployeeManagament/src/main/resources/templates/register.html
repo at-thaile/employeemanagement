@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>Materialize SignUp form</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">  
+  
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css'>
+<link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+<link rel="stylesheet" href="/css/register.css">
+</head>
+
+<body>
+
+<div class="container">
+<div class="row">
+		<div id='notification-addUser'></div>
+	    <form class="col s12" id="form-add-user">
+	    	<br/>
+	      <div class="row">
+	          <div class="input-field col s12">
+	            <input id="email" name="email" type="email" placeholder="email" class="validate" required>
+	          </div>
+	      </div> 
+	      <div class="row">
+	          <div class="input-field col s6">
+	            <input id="fullname" name="fullname" type="text" placeholder="fullname" class="validate" required>
+	          </div>
+	          <div class="input-field col s6">
+	              <input id="phone" name="phone" type="number"  placeholder="phone" class="validate" required>
+	          </div>          
+	      </div>
+	      <div class="row">
+	        <div class="input-field col s12">
+	          <label for="birthday">Birthday</label><br/><br/>
+	          <input id="birthday" type="date" name="birthday" class="validate" placeholder="birthday">          
+	        </div>
+	      </div>
+	      <div class="row">
+	        <div class="input-field col s12">
+	          <input id="address" type="text" name="address" class="validate" required placeholder="address"> 
+	        </div>
+	      </div>          
+	      <div class="row">
+	        <div class="input-field col s6">
+	          <input id="password" type="password" name="password" class="validate"  required placeholder="password">
+	        </div>
+	        <div class="input-field col s6">
+	            <input id="matchingPassword" name="matchingPassword" type="password" class="validate" minlength="6" required placeholder="Confirm password">
+	        </div>        
+	      </div>
+	
+	      <div class="row">
+	        <div class="input-field col s6">
+	          <div class="gender-male">
+	            <input class="with-gap" name="gender" value="false" checked="true" type="radio" id="male" required />
+	            <label for="male">Male</label>
+	          </div>
+	          <div class="gender-female">
+	            <input class="with-gap" name="gender" value="true" type="radio" id="female" required />
+	            <label for="female">Female</label>
+	          </div>
+	        </div>
+	        <div class="input-field col s6">
+	            <button class="btn btn-large btn-register waves-effect waves-light" type="button" id="btnAddUser" name="action">Register
+	              <i class="material-icons right">done</i>
+	            </button>
+	        </div>        
+	      </div>
+	    </form>
+  </div>
+  <a title="Login" class="ngl btn-floating btn-large waves-effect waves-light red"><i class="material-icons">input</i></a>
+</div>
+  <script src='https://code.jquery.com/jquery-2.1.1.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js'></script> 
+<script src="/js/jquery.serializejson.js"></script>
+<script>
+	$(function() {
+		$('#btnAddUser').click(function(e) {
+			$(this).prop('disabled', 'disabled');
+			e.preventDefault();
+			$('input').next().remove();
+			addUser();
+		});
+	});
+	function addUser() {
+		var userInfo = $('#form-add-user').serializeJSON({
+			parseBooleans : true
+		});
+		var jsonUserInfo = JSON.stringify(userInfo);
+		console.log(jsonUserInfo);
+		$.ajax({
+			type : 'POST',
+			contentType : 'application/json',
+			url : '/registerAccount',
+			dataType : 'json',
+			data : jsonUserInfo,
+			complete : function(response) {
+				if (response.status === 200) {
+					showMessage('notification-addUser',
+							response.responseText, true);
+				} else if (response.status === 400
+						&& response.responseJSON.validated === false) {
+					console.log(response);
+					$.each(response.responseJSON.errorMessages, function(
+							key, value) {
+						$('input[name=' + key + ']').after(
+								'<span style="color: red;">' + value
+										+ '</span>');
+					});
+				} else {
+					showMessage('notification-addUser',
+							response.responseText, false);
+				}
+				$('#btnAddUser').prop("disabled", false)
+			}
+		});
+	}
+	function showMessage(tagId, msg, isSuccess) {
+		$('#' + tagId).attr('style', 'display:block');
+		if (isSuccess) {
+			$('#' + tagId).prop('class', 'alert alert-success');
+			$('#' + tagId).html('<strong>Success!!!<strong> ' + msg);
+
+		} else {
+			$('#' + tagId).prop('class', 'alert alert-danger');
+			$('#' + tagId).html('<strong>Fail!!!<strong> ' + msg);
+		}
+
+		$('#' + tagId).fadeIn(50);
+		$('#' + tagId).hide().slideDown(500);
+		setTimeout(function() {
+			$('#' + tagId).fadeOut(1500);
+		}, 3000);
+	}	
+</script>
+</body>
+</html>

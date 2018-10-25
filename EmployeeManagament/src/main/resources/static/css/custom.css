@@ -1,0 +1,52 @@
+.btn-primary {
+	background-color: #3985c7;
+	border-color: #3279b7;
+}
+
+#alert, #nofitication, #alert_edit {
+	display: none;
+	margin: 0;
+}
+
+.button-css {
+	width: 14%;
+}
+
+.btn-danger {
+	background-color: #d9534f;
+}
+
+td {
+	padding: 0;
+	margin-top: 30%;
+}
+
+.text-white{
+	color:white;
+	background-color: black;
+}
+/* modal-body{
+	padding:0 0 5px 0;
+}
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+
+    position: absolute;
+    z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}*/
