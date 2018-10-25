@@ -13,14 +13,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.entity.User;
 import com.example.demo.entity.dto.PasswordDTO;
 import com.example.demo.response.UserResponse;
-import com.example.demo.service.FileStorageService;
 import com.example.demo.service.PasswordService;
 import com.example.demo.service.UserService;
 
@@ -30,8 +27,6 @@ public class UserProfileApiController {
 	@Autowired
 	UserService userService;
 
-	@Autowired
-	FileStorageService fileStorageService;
 
 	@Autowired
 	PasswordService passwordService;
@@ -45,22 +40,6 @@ public class UserProfileApiController {
 		return new ResponseEntity<>(userRespone, HttpStatus.OK);
 	}
 
-	@PutMapping
-	public ResponseEntity<Object> updateMyProfile(@Valid @RequestBody UserResponse userResponse,
-			BindingResult bindingResult) {
-		if (bindingResult.hasErrors()) {
-			String fieldName = bindingResult.getFieldError().getField();
-			String message = bindingResult.getFieldError().getDefaultMessage();
-			return new ResponseEntity<>(fieldName + " : " + message, HttpStatus.BAD_REQUEST);
-		}
-		if (userResponse == null) {
-			return new ResponseEntity<>("Bad request", HttpStatus.BAD_REQUEST);
-		}
-
-		userService.saveUser(userResponse);
-		return new ResponseEntity<>("Update user successfully", HttpStatus.OK);
-
-	}
 
 	@PutMapping("change-password")
 	public ResponseEntity<Object> changePasswordMyProfile(@Valid @RequestBody PasswordDTO passwordDTO,
@@ -106,16 +85,6 @@ public class UserProfileApiController {
 
 	}
 
-	@PutMapping("/update-avatar")
-	public ResponseEntity<Object> updateAvatar(Principal principal,@RequestParam("file") MultipartFile file){
-		if(fileStorageService.storeFile(file)) {
-			UserResponse userResponse = passwordService.viewCurrentUserResponse(principal);
-			userResponse.setPathImage(file.getOriginalFilename());
-			userService.saveUser(userResponse);
-			return new ResponseEntity<Object>(userResponse,HttpStatus.OK);
-		}
-		return new ResponseEntity<Object>("Update avatar not success!!!",HttpStatus.NOT_MODIFIED);
-	}
 	
 	public UserResponse viewCurrentUsers(Principal principal) {
 		String email = principal.getName();

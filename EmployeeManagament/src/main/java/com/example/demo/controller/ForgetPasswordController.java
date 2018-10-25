@@ -26,11 +26,6 @@ import com.example.demo.service.TokenVerificationService;
 import com.example.demo.service.UserService;
 import com.example.demo.util.VerificationUtil;
 
-/**
- * @summary forget password 
- * @date Aug 22, 2018
- * @author Tai
- */
 @Controller
 public class ForgetPasswordController {
 	@Autowired
@@ -48,13 +43,7 @@ public class ForgetPasswordController {
 	@Autowired
 	private PasswordService passwordService;
 
-	/**
-	* @summary return page view chek email
-	* @date Aug 22, 2018
-	* @author Tai
-	* @param modelMap
-	* @return String
-	 */
+
 	@GetMapping("/forget-password")
 	public String creadEmailDto(ModelMap modelMap) {
 		EmailDTO email = new EmailDTO();
@@ -63,22 +52,12 @@ public class ForgetPasswordController {
 		return "checkmail";
 	}
 
-	/**
-	* @summary Processing email confirmation password change
-	* @date Aug 22, 2018
-	* @author Tai
-	* @param emailDTO
-	* @param bindingResult
-	* @param modelMap
-	* @return String
-	 */
+
 	@PostMapping("/forget-password")
 	public String checkOutEmailAndSendMail(@Valid @ModelAttribute("emailDTO") EmailDTO emailDTO,
 			BindingResult bindingResult, ModelMap modelMap) {
 		String email = emailDTO.getEmail();
-		// tim kiem user co email la ?
 		User existEmail = userService.getUserByEmail(email);
-		// not bank, dung dinh dang email
 		if (bindingResult.hasErrors()) {
 			System.out.println(bindingResult.getAllErrors().toString());
 			List<ObjectError> list = bindingResult.getAllErrors();
@@ -86,7 +65,6 @@ public class ForgetPasswordController {
 				System.out.println(objectError);
 			}
 			modelMap.addAttribute("emailDTO", emailDTO);
-//			return "check-email";
 			return "checkmail";
 		}
 		// kiem tra k  ton tai
@@ -119,14 +97,6 @@ public class ForgetPasswordController {
 		return "checkmail";
 	}
 
-	/**
-	* @summary create password change page
-	* @date Aug 22, 2018
-	* @author Tai
-	* @param token
-	* @param modelMap
-	* @return String
-	 */
 	@GetMapping("/change-password")
 	public String viewChangePassword(@RequestParam("token") String token, ModelMap modelMap) {
 		TokenVerifition checkToKenVerifition = tokenVerificationService.findTokenByTokenCode(token);
@@ -162,15 +132,7 @@ public class ForgetPasswordController {
 
 	}
 
-	/**
-	* @summary save new password
-	* @date Aug 22, 2018
-	* @author Tai
-	* @param passwordDTO
-	* @param bindingResult
-	* @param modelMap
-	* @return String
-	 */
+
 	@PostMapping("/change-password")
 	public String toDoChangePassword(@Valid @ModelAttribute("changePasswordDTO") PasswordDTO passwordDTO,
 			BindingResult bindingResult, ModelMap modelMap) {

@@ -8,16 +8,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import com.example.demo.filter.UnBlockUserFilter;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 
-	@Autowired
-	private UnBlockUserFilter unBlockUserFilter;
 
 	@Autowired
 	private SuccessLoginHandler successLoginHandle;;
@@ -56,7 +51,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
 		// add filter for check time to unblock user
 		http.authorizeRequests().and()
-				.addFilterBefore(unBlockUserFilter, UsernamePasswordAuthenticationFilter.class).formLogin()
+				.formLogin()
 				.loginPage("/login").permitAll().usernameParameter("email").passwordParameter("password")
 				.loginProcessingUrl("/login").successHandler(successLoginHandle).failureHandler(failLoginHandle)
 				// setting remember me

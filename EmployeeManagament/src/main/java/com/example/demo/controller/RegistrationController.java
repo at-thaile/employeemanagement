@@ -33,7 +33,6 @@ import com.example.demo.service.RoleService;
 import com.example.demo.service.TokenVerificationService;
 import com.example.demo.service.UserRoleService;
 import com.example.demo.service.UserService;
-import com.example.demo.util.CheckRealMailExist;
 import com.example.demo.util.RoleSystem;
 import com.example.demo.util.VerificationUtil;
 
@@ -99,8 +98,6 @@ public class RegistrationController {
 	      }
 		if(userService.checkDuplicateEmail(userModel.getEmail())) {
 			return new ResponseEntity<Object> ("Email is existed", HttpStatus.CONFLICT);
-		} if( !CheckRealMailExist.isAddressValid(userModel.getEmail())){
-			return new ResponseEntity<Object> ("Email is not exist!!!", HttpStatus.NOT_FOUND);
 		}
 		else {
 			String registCode = veritificationUtil.generateVerificationCode(userModel.getEmail()+userModel.getPassword());

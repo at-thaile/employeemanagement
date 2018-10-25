@@ -12,14 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class LoginController {
 
-	/**
-	 * @summary login page
-	 * @date Aug 23, 2018
-	 * @author Thehap Rok
-	 * @param model
-	 * @param request
-	 * @return String
-	 */
 	@GetMapping(path = "/login")
 	public String login(Model model, HttpServletRequest request) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -34,12 +26,6 @@ public class LoginController {
 		return "login-page";
 	}
 
-	/**
-	 * @summary home page 
-	 * @date Aug 23, 2018
-	 * @author Thehap Rok
-	 * @return String
-	 */
 	@GetMapping(path = {"/","/home"})
 	public String home() {
 		return "user-home";

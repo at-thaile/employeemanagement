@@ -17,39 +17,21 @@ public class TokenVerificationServiceImpl implements TokenVerificationService {
 	@Autowired
 	private TokenVerificationRepository tokenVerificationRepository;
 
-	/**
-	 * @summary add TokenVerfition
-	 * @date Aug 23, 2018
-	 * @author ThaiLe
-	 * @param tokenVerifition
-	 * @return TokenVerifition
-	 */
+
 	@Override
 	public TokenVerifition addToken(TokenVerifition tokenVerifition) {
 		// TODO Auto-generated method stub
 		return tokenVerificationRepository.save(tokenVerifition);
 	}
 
-	/**
-	 * @summary add TokenVerfition
-	 * @date Aug 23, 2018
-	 * @author ThaiLe
-	 * @param tokenVerifition
-	 * @return TokenVerifition
-	 */
+
 	@Override
 	public TokenVerifition editToken(TokenVerifition tokenVerifition) {
 		// TODO Auto-generated method stub
 		return tokenVerificationRepository.save(tokenVerifition);
 	}
 
-	/**
-	 * @summary delete Token By id
-	 * @date Aug 23, 2018
-	 * @author ThaiLe
-	 * @param id
-	 * @return boolean
-	 */
+
 	@Transactional
 	@Override
 	public boolean deleteTokenById(Long id) {
@@ -62,13 +44,6 @@ public class TokenVerificationServiceImpl implements TokenVerificationService {
 		return true;
 	}
 
-	/**
-	 * @summary find TokenVerfition by TokenCode
-	 * @date Aug 23, 2018
-	 * @author ThaiLe
-	 * @param token
-	 * @return TokenVerifition
-	 */
 	@Override
 	public TokenVerifition findTokenByTokenCode(String token) {
 		// TODO Auto-generated method stub

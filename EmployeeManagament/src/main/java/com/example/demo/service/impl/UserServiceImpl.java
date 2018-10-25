@@ -11,98 +11,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.entity.Group;
-import com.example.demo.entity.GroupRole;
-import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
 import com.example.demo.entity.UserDetail;
-import com.example.demo.entity.UserGroup;
-import com.example.demo.entity.UserRole;
 import com.example.demo.entity.dto.UserDTO;
 import com.example.demo.entity.dto.UserDTOEdit;
-import com.example.demo.exception.RoleNotFoundException;
-import com.example.demo.exception.UserAlreadyRoleException;
-import com.example.demo.exception.UserNotFoundException;
-import com.example.demo.repository.GroupRoleRepository;
-import com.example.demo.repository.RoleRepository;
-import com.example.demo.repository.UserGroupRepository;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.repository.UserRoleRepository;
 import com.example.demo.response.UserResponse;
 import com.example.demo.service.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-	@Autowired
-	private UserGroupRepository UserGroupRepository;
-
-	@Autowired
-	private UserRoleRepository userRoleRepository;
-
-	@Autowired
-	private GroupRoleRepository groupRoleRepository;
-
-	@Autowired
-	private RoleRepository roleRepository;
 
 	@Autowired
 	private UserRepository userRepository;
 
-	/**
-	 * @summary get all user of group from database
-	 * @date Aug 16, 2018
-	 * @author Thehap Rok
-	 * @param groupId
-	 * @return
-	 * @return List<UserResponse>
-	 */
-	@Override
-	public List<UserResponse> getAllUserOfGroup(Long groupId) {
-		List<UserGroup> userGroups = UserGroupRepository.findAllUserOfGroupId(groupId);
-		List<User> listUser = convertUserGroupsToUsers(userGroups);
-		return convertUserToUserResponse(listUser);
-	}
 
-	/**
-	 * @summary convert list object UserGroup to list object User
-	 * @date Aug 16, 2018
-	 * @author Thehap Rok
-	 * @param userGroups
-	 * @return List<User>
-	 */
-	@Override
-	public List<User> convertUserGroupsToUsers(List<UserGroup> userGroups) {
-		List<User> listUser = new ArrayList<User>();
-		for (UserGroup userGroup : userGroups) {
-			listUser.add(userGroup.getUser());
-		}
-		return listUser;
-	}
-
-	/**
-	 * @summary convert list object UserRole to list object User
-	 * @date Aug 16, 2018
-	 * @author Thehap Rok
-	 * @param userRoles
-	 * @return List<User>
-	 */
-	@Override
-	public List<User> convertUserRolesToUsers(List<UserRole> userRoles) {
-		List<User> listUser = new ArrayList<User>();
-		for (UserRole userRole : userRoles) {
-			listUser.add(userRole.getUser());
-		}
-		return listUser;
-	}
-
-	/**
-	 * @summary convert list object User to list object UserResponse
-	 * @date Aug 16, 2018
-	 * @author Thehap Rok
-	 * @param listUser
-	 * @return List<UserResponse>
-	 */
 	@Override
 	public List<UserResponse> convertUserToUserResponse(List<User> listUser) {
 		List<UserResponse> listUserResponse = new ArrayList<>();
@@ -152,13 +76,6 @@ public class UserServiceImpl implements UserService {
 		return userRepository.save(oldUser);
 	}
 
-	/**
-	 * @summary delete User from database based on id of user
-	 * @date Aug 15, 2018
-	 * @author ThaiLe
-	 * @param id
-	 * @return boolean
-	 */
 	@Transactional
 	@Override
 	public boolean deleteUserById(Long id) {
@@ -167,17 +84,9 @@ public class UserServiceImpl implements UserService {
 			return false;
 		}
 		userRepository.deleteUser(id);
-		deleteUserGroup(id);
-		deleteAllRoleOfUser(id);
 		return true;
 	}
 
-	/**
-	 * @summary return list of all user not deleted from database
-	 * @date Aug 15, 2018
-	 * @author ThaiLe
-	 * @return List<UserResponse>
-	 */
 	@Override
 	public List<UserResponse> getAllUsers() {
 		List<User> listUser = userRepository.findAllUserNotDeleted();
@@ -187,15 +96,7 @@ public class UserServiceImpl implements UserService {
 	public List<User> findAllUser() {
 		return userRepository.findAll();
 	}
-	
-	/**
-	 * @summary find a user base on id of user, return object of type UserResponse
-	 *          class
-	 * @date Aug 15, 2018
-	 * @author ThaiLe
-	 * @param userId
-	 * @return UserResponse
-	 */
+
 	public UserResponse findUserById(Long userId) {
 		Optional<User> user = userRepository.findById(userId);
 		if (!user.isPresent()) {
@@ -206,13 +107,7 @@ public class UserServiceImpl implements UserService {
 		return userResponse;
 	}
 
-	/**
-	 * @summary check whether duplicate email existed of a user in database
-	 * @date Aug 15, 2018
-	 * @author ThaiLe
-	 * @param email
-	 * @return boolean
-	 */
+
 	@Override
 	public boolean checkDuplicateEmail(String email) {
 		Optional<User> optionalUser = userRepository.findByEmail(email);
@@ -221,13 +116,6 @@ public class UserServiceImpl implements UserService {
 		return false;
 	}
 
-	/**
-	 * @summary find a user base on id of user, return object of type User class
-	 * @date Aug 15, 2018
-	 * @author ThaiLe
-	 * @param userID
-	 * @return User
-	 */
 	@Override
 	public User findUserByUserId(Long userID) {
 		Optional<User> optionalUser = userRepository.findById(userID);
@@ -237,13 +125,7 @@ public class UserServiceImpl implements UserService {
 		return optionalUser.get();
 	}
 
-	/**
-	 * @summary convert UserDTO object to User object
-	 * @date Aug 15, 2018
-	 * @author ThaiLe
-	 * @param userDTO
-	 * @return User
-	 */
+
 	@Override
 	public User convertUserDtoToUser(UserDTO userDTO) {
 		User user = new User();
@@ -256,13 +138,6 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 
-	/**
-	 * @summary return User base email of User
-	 * @date Aug 15, 2018
-	 * @author ThaiLe
-	 * @param email
-	 * @return User
-	 */
 	@Override
 	public User getUserByEmail(String email) {
 		Optional<User> optionalUser = userRepository.findByEmail(email);
@@ -271,72 +146,8 @@ public class UserServiceImpl implements UserService {
 		}
 		return optionalUser.get();
 	}
-
-	/**
-	 * @summary remove all role of group when reomve user
-	 * @date Aug 23, 2018
-	 * @author Thehap Rok
-	 * @param group
-	 * @param user
-	 * @return void
-	 */
-	@Override
-	public void removeRoleOfGroupFromUserRole(Group group, User user) {
-		List<UserGroup> userGroups = user.getUserGroups();
-		List<GroupRole> listGroupRole = group.getGroupRoles();
-		for (GroupRole groupRole : listGroupRole) {
-			boolean exist = true;
-			Long roleId = groupRole.getRole().getId();
-			for (UserGroup userGroup : userGroups) {
-				Long groupId = userGroup.getGroup().getId();
-				Optional<GroupRole> optional = groupRoleRepository.findByGroupIdAndRoleId(groupId, roleId);
-				if (!optional.isPresent()) {
-					exist = false;
-					break;
-				}
-			}
-			if (!exist) {
-				userRoleRepository.deleteByUserIdAndRoleId(user.getId(), roleId);
-			}
-		}
-	}
-
-	/**
-	 * @summary upgrate role user to admin
-	 * @date Aug 23, 2018
-	 * @author Thehap Rok
-	 * @param userId
-	 * @return UserRole
-	 */
-	@Override
-	public UserRole upgradeUserRole(Long userId,Long roleId) 
-			throws UserNotFoundException, UserAlreadyRoleException {
-		Optional<Role> roleOptional = roleRepository.findById(roleId);
-		Optional<User> userOptional = userRepository.findById(userId);
-		if (!userOptional.isPresent()) {
-			throw new UserNotFoundException("User not found!!!");
-		}
-		if(!roleOptional.isPresent()) {
-			throw new RoleNotFoundException("Role not found!!!");
-		}
-		Role role = roleOptional.get();
-		User user = userOptional.get();
-		boolean checkUserRole = userRoleRepository.existsByUserIdAndRoleId(userId, roleId);
-		if(checkUserRole) {
-			return new UserRole();
-		}
-		userRoleRepository.deleteByUserIdAndRoleIdOfSystem(userId);
-		UserRole userRole = new UserRole(user, role);
-		return userRoleRepository.save(userRole);
-	}
 	
-	/**
-	 * @summary active User
-	 * @date Aug 22, 2018
-	 * @author ThaiLe
-	 * @param id
-	 * @return boolean
-	 */
+
 	@Transactional
 	@Override
 	public boolean activeUser(Long id) {
@@ -348,41 +159,13 @@ public class UserServiceImpl implements UserService {
 		return true;
 	}
   
-	/**
-	 * @summary Save User
-	 * @date Aug 21, 2018
-	 * @author Tai
-	 * @param user
-	 * @return User
-	 */
+
 	@Override
 	public User saveUser(User user) {
 		return userRepository.save(user);
 	}
 
-	/**
-	 * @summary delete all role of user
-	 * @date Aug 23, 2018
-	 * @author Thehap Rok
-	 * @param userId
-	 * @return void
-	 */
-	@Override
-	public void deleteAllRoleOfUser(Long userId) {
-		userRoleRepository.deleteUserRoleByUserId(userId);
-	}
 
-	/**
-	 * @summary delete all group of user
-	 * @date Aug 23, 2018
-	 * @author Thehap Rok
-	 * @param userId
-	 * @return void
-	 */
-	@Override
-	public void deleteUserGroup(Long userId) {
-		UserGroupRepository.deleteUserGroupByUserId(userId);
-	}
 
 	@Override
 	public User saveUser(UserResponse userResponse) {
@@ -411,13 +194,6 @@ public class UserServiceImpl implements UserService {
 		return userRepository.save(user);
 	}
 
-	/**
-	 * @summary edit User
-	 * @date Aug 22, 2018
-	 * @author ThaiLe
-	 * @param objUser
-	 * @return User
-	 */
 	@Override
 	public User editUser(User objUser) {
 		return userRepository.save(objUser);
