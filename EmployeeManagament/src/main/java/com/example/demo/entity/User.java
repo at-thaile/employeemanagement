@@ -53,10 +53,6 @@ public class User implements Serializable{
 	private TokenVerifition tokenVerifition;
 
 	@JsonIgnore
-	@OneToOne(mappedBy = "user", cascade=CascadeType.ALL, orphanRemoval=true)
-	private BlockUser blockUser;
-
-	@JsonIgnore
 	@OneToMany(mappedBy = "user",orphanRemoval=true)
 	private List<UserGroup> userGroups;
 
@@ -75,7 +71,7 @@ public class User implements Serializable{
 	}
 
 	public User(Long id, String email, String password, Boolean enable, Boolean nonDel, Boolean nonLocked,
-			UserDetail userDetail, TokenVerifition tokenVerifition, BlockUser blockUser, List<UserGroup> userGroups,
+			UserDetail userDetail, TokenVerifition tokenVerifition, List<UserGroup> userGroups,
 			List<UserRole> userRoles) {
 		super();
 		this.id = id;
@@ -86,7 +82,6 @@ public class User implements Serializable{
 		this.nonLocked = nonLocked;
 		this.userDetail = userDetail;
 		this.tokenVerifition = tokenVerifition;
-		this.blockUser = blockUser;
 		this.userGroups = userGroups;
 		this.userRoles = userRoles;
 	}
@@ -155,13 +150,6 @@ public class User implements Serializable{
 		this.tokenVerifition = tokenVerifition;
 	}
 
-	public BlockUser getBlockUser() {
-		return blockUser;
-	}
-
-	public void setBlockUser(BlockUser blockUser) {
-		this.blockUser = blockUser;
-	}
 
 	public List<UserGroup> getUserGroups() {
 		return userGroups;
